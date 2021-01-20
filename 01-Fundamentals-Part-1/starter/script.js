@@ -93,15 +93,38 @@
 // * != loose versin
 
 // ? Basic boolean logic && || !
+// const hasDriversLicense = true;
+// const hasGoodVision = true;
 
-const hasDriversLicense = true;
-const hasGoodVision = true;
+// console.log(hasDriversLicense || hasGoodVision); //true
 
-console.log(hasDriversLicense || hasGoodVision); //true
+// const shouldDrive = hasDriversLicense && hasGoodVision;
+// if(shouldDrive){
+//    console.log("she can drive");
+// } else {
+//    console.log("she cannot drive");
+// }
 
-const shouldDrive = hasDriversLicense && hasGoodVision;
-if(shouldDrive){
-   console.log("she can drive");
-} else {
-   console.log("she cannot drive");
-}
+// ? The switch statement
+// const day = 'monday';
+
+// switch (day) {
+// 	case 'monday':
+//       console.log("it's the first day of the week");
+//       console.log("go to the gym");
+//       break;
+//    case 'tuesday':
+//       console.log("keep learning javascript");
+//       break;
+//    case 'wednesday':
+//    case 'thursday':
+//    case 'friday':
+//       console.log("go to school");
+//       break;
+//    default:
+//       console.log("it's weekend");
+// }
+
+// ? Statements and expressions
+// * expression - a piece of code that produces a value ( 3 + 4 ) ( true && false && !false) ( 233 )
+// * statements/declarations are like full sentences that translate actions
