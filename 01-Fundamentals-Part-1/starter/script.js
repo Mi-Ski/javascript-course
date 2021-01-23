@@ -128,3 +128,21 @@
 // ? Statements and expressions
 // * expression - a piece of code that produces a value ( 3 + 4 ) ( true && false && !false) ( 233 )
 // * statements/declarations are like full sentences that translate actions
+
+// ? Ternary operator
+// const age = 12;
+
+// const ageOperation = age >= 18 ? 'wine.' : 'water.';
+// console.log(`I like to drink ${ageOperation}`);
+
+// const bill = 254;
+
+// const tip = bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.2;
+
+// console.log(`The bill was ${bill}, and the total with a tip of ${tip} was ${bill + tip}`);
+
+// * es1
+// function add(n){
+//    var x = 5 + add.arguments[0];
+//    return x;
+// }
