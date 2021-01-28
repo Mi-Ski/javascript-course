@@ -140,19 +140,44 @@
 
 // ? Dot vs Bracket notation
 
+// const michalObject = {
+//    firstName: 'Mi',
+//    lastName: 'Ski',
+//    age: 2021 - 2000,
+//    occupation: 'student',
+//    closeFamily: ['Mom', 'Dad', 'Sister']
+// };
+
+// * dot notation
+// console.log(michalObject.age);
+// * bracket notation
+// console.log(michalObject['firstName']); // * <- any expression can be used here
+// console.log(michalObject['last' + 'Name']);
+
+// const flName = prompt("first or last name?")
+// console.log(michalObject[flName + 'Name']);
+
+// michalObject.github = '@MiSki';
+// michalObject['pet'] = 'cockatiel';
+// console.log(michalObject);
+
+// console.log(`${michalObject.firstName} has ${michalObject.closeFamily.length} member of close family, and the first of them is ${michalObject.closeFamily[0]}`);
+
+// ? Object methods
+
 const michalObject = {
    firstName: 'Mi',
    lastName: 'Ski',
-   age: 2021 - 2000,
    occupation: 'student',
-   closeFamily: ['Mom', 'Dad', 'Sister']
+   birthYear: 2000,
+   closeFamily: ['Mom', 'Dad', 'Sister'],
+   hasDriversLicense: true,
+
+   calcAge: function(birthYear) {
+      return 2021 - birthYear;
+   }
 };
 
-// * dot notation
-console.log(michalObject.age);
-// * bracket notation
-console.log(michalObject['firstName']); // * <- any expression can be used here
-console.log(michalObject['last' + 'Name']);
+console.log(michalObject.calcAge(1974));
 
-const flName = prompt("first or last name?")
-console.log(michalObject[flName + 'Name']);
+console.log(michalObject['calcAge'](michalObject.birthYear));
