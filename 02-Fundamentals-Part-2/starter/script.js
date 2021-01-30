@@ -173,11 +173,40 @@ const michalObject = {
    closeFamily: ['Mom', 'Dad', 'Sister'],
    hasDriversLicense: true,
 
-   calcAge: function(birthYear) {
+   calcAge: function (birthYear) {
       return 2021 - birthYear;
    }
 };
-
 console.log(michalObject.calcAge(1974));
-
 console.log(michalObject['calcAge'](michalObject.birthYear));
+
+
+
+
+
+
+// let counterValue = 0;
+// localStorage.setItem("myElement", counterValue);
+
+// const counter = document.getElementById("counter");
+
+// counter.innerHTML = localStorage.getItem('myElement');
+
+// const counterIncrement = () => {
+//    localStorage.setItem('myElement', counterValue += 2);
+//    counter.innerHTML = localStorage.getItem('myElement');
+// }
+
+// window.onload = function () {
+//    counterValue = localStorage.getItem('myElement');
+//    counter.innerHTML = localStorage.getItem('myElement');
+// }
+
+let count = localStorage.getItem("count") || 0;
+document.getElementById("counter").innerHTML = count;
+
+function counterIncrement() {
+   count++;
+   localStorage.setItem("count", count);
+   document.getElementById("counter").innerHTML = count;
+};
