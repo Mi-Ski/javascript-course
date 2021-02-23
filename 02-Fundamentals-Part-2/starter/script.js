@@ -165,25 +165,6 @@
 
 // ? Object methods
 
-const michalObject = {
-   firstName: 'Mi',
-   lastName: 'Ski',
-   occupation: 'student',
-   birthYear: 2000,
-   closeFamily: ['Mom', 'Dad', 'Sister'],
-   hasDriversLicense: true,
-
-   calcAge: function (birthYear) {
-      return 2021 - birthYear;
-   }
-};
-console.log(michalObject.calcAge(1974));
-console.log(michalObject['calcAge'](michalObject.birthYear));
-
-
-
-
-
 
 // let counterValue = 0;
 // localStorage.setItem("myElement", counterValue);
@@ -210,3 +191,149 @@ function counterIncrement() {
    localStorage.setItem("count", count);
    document.getElementById("counter").innerHTML = count;
 };
+
+
+// const michalObject = {
+//    firstName: 'Mi',
+//    lastName: 'Ski',
+//    occupation: 'student',
+//    birthYear: 2000,
+//    closeFamily: ['Mom', 'Dad', 'Sister'],
+//    hasDriversLicense: true,
+
+//    calcAge: function (birthYear) {
+//       this.age = 2020 - this['birthYear'];
+//       return this.age;
+//    },
+
+//    getSummary: function () {
+//       return `${this.firstName} is a ${this.calcAge(this.birthYear)} yo ${this.occupation}, and he has ${this.hasDriversLicense ? 'a' : 'no'} driver's license.`;
+//    }
+// };
+// // console.log(michalObject.calcAge(1974));
+// // console.log(michalObject['calcAge'](michalObject.birthYear));
+
+// michalObject.calcAge();
+// console.log(michalObject['a' + 'g' + 'e']);
+// console.log(michalObject.getSummary());
+
+
+
+
+// const markObj = {
+//    mass: 78,
+//    height: 1.69,
+//    fullName: 'Mark',
+
+//    calcBMI: function() {
+//       this.bmi = this.mass / Math.pow(this.height, 2);
+//    }
+// }
+
+// const johnObj = {
+//    mass: 92,
+//    height: 1.95,
+//    fullName: 'John',
+
+//    calcBMI: function() {
+//       this.bmi = this.mass / Math.pow(this.height, 2);
+//    }
+// }
+
+// markObj.calcBMI();
+// johnObj.calcBMI();
+// if (markObj.bmi > johnObj.bmi) {
+//    console.log(`Mark's bmi is higher than John's (${markObj.bmi} vs ${johnObj.bmi})`);
+// }
+// else {
+//    console.log(`Johns's bmi is higher than Mark's (${johnObj.bmi} vs ${markObj.bmi})`);
+// }
+
+// * LOOPS
+// for (let i = 4; i <= 4; i++) {
+//    console.log(`repetition ${i}`);
+// }
+
+const michalArray = [
+   'Mi',
+   'Ski',
+   2021 - 2000,
+   'student',
+   ['Mom', 'Dad', 'Sister']
+];
+
+// let michalTypeArray = [];
+
+// for (let i = 0; i <= michalArray.length - 1; i++) {
+//    // console.log(michalArray[i], typeof michalArray[i]);
+//    michalTypeArray.push(typeof michalArray[i])
+// }
+// console.log(michalTypeArray);
+
+// const birthYearArray = [1991, 1975, 2000, 2005, 1983];
+// const agesArray = [];
+
+// for (let i = 0; i < birthYearArray.length; i++) {
+//    let age = 2020 - birthYearArray[i];
+//    agesArray.push(age);
+// }
+
+// console.log(agesArray);
+
+// * Continue and break
+// Continue - exit the current iteration of the loop and continue to the next one
+// Break - compeletely terminate the whole loop
+
+// for (let i = 0; i < michalArray.length; i++) {
+//    if (typeof michalArray[i] !== 'string') continue;
+//    console.log(michalArray[i], typeof michalArray[i]);
+// }
+
+// for (let i = 0; i < michalArray.length; i++) {
+//    console.log(michalArray[i], typeof michalArray[i]);
+//    if (typeof michalArray[i] === 'number') break;
+// }
+
+// * Looping backwards
+// for (let i = michalArray.length - 1; i >= 0; i--) {
+//    console.log(michalArray[i]);
+// }
+
+// * While loop
+
+// let dice = Math.floor(Math.random() * 6) + 1;
+
+// while(dice !== 6) {
+//    console.log(`You rolled a ${dice}`);
+//    dice = Math.floor(Math.random() * 6) + 1;
+
+//    if (dice === 6) {
+//       console.log("6 was rolled, exiting.");
+//    }
+// }
+
+// * Coding challenge #4
+const billsArray = [131, 23, 42, 432, 72, 23, 53, 24, 62, 239];
+let tips = [];
+let totals = [];
+
+const tipCalculator = (bill) => {
+   return bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.2;
+}
+
+for (let i = 0; i < billsArray.length; i++) {
+   tips.push(tipCalculator(billsArray[i]));
+   totals.push(tipCalculator(billsArray[i]) + billsArray[i]);
+}
+
+console.log(tips, totals);
+
+const calcAverage = (arr) => {
+   let totalAmmount = 0;
+   for (let i = 0; i < arr.length; i++) {
+      totalAmmount += arr[i];
+   };
+   console.log(totalAmmount / (arr.length - 1));
+   console.log(totalAmmount);
+}
+calcAverage([2,5,6]);
