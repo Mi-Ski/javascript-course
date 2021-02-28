@@ -21,4 +21,83 @@ const restaurant = {
       close: 24,
     },
   },
+
+  order: function (starterIndex, mainIndex) {
+    return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
+  },
+
+  orderDelivery: function({starterIndex, mainIndex, time, address}) {
+    console.log(starterIndex, mainIndex, address, time);
+  }
 };
+
+// restaurant.orderDelivery({
+//   time: '23:23',
+//   address: 'Long street 23',
+//   mainIndex: 2,
+//   starterIndex: 0
+// })
+
+// let [starter1, main1] = restaurant.order(3, 2);
+// console.log(starter1, main1, 'desctructured dishes');
+
+// ! Array destructuring
+// // const arrayToDestructure = ['a', 'b', 'c'];
+// // const [el1, el2, el3] = arrayToDestructure;
+// // console.log(el1, el2, el3);
+
+// let [main, , secondary] = restaurant.mainMenu;
+// console.log(main, secondary);
+
+// // * changing main with secondary
+// // const temp = main;
+// // main = secondary;
+// // secondary = temp;
+// // * the same as:
+// [secondary, main] = [main, secondary];
+
+// console.log(main, secondary);
+
+// * nested destructuring
+// const nestedArray = [2, 3, 4, [5, 6]];
+// // , , , <- skipping 3 and 4
+// const [i, , , [nr1, nr2]] = nestedArray;
+// console.log(i, nr1, nr2);
+
+// // * default values with destructuring
+// // r=1 default value
+// const [p = 1, q = 1, r = 1] = [8,9];
+// console.log(p,q,r);
+
+// ! Object destructuring
+// object order doesn't matter so no need for skipping like in the array. Names must match
+// const {name, openingHours, categories} = restaurant;
+// console.log(name, openingHours, categories);
+
+// * destructuring objects with custom names
+// const {
+//   name: myRestaurant,
+//   openingHours: restaurantHours,
+//   categories: foodPicks,
+// } = restaurant;
+// console.log(myRestaurant, restaurantHours, foodPicks);
+
+// const {menu = 'haha', starterMenu: starters = []} = restaurant;
+// console.log(menu, starters);
+
+// * mutating variables when destructuring objects
+// let a = 111;
+// let b = 222;
+// const obj = {a: 23, b: 8, c: 12};
+
+// ({a, b} = obj);
+// console.log(a, b);
+
+// ! Nested objects
+// const {fri: {open: o, close: c}} = restaurantHours;
+// console.log(o, c);
+
+// ! The spread operator
+const arr = [7, 8, 9];
+const newArr = [1, 2, 3, ...arr];
+console.log(newArr);
