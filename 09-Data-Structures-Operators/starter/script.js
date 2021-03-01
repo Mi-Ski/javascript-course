@@ -28,8 +28,15 @@ const restaurant = {
 
   orderDelivery: function({starterIndex, mainIndex, time, address}) {
     console.log(starterIndex, mainIndex, address, time);
+  },
+
+  orderPasta: function(ing1, ing2, ing3) {
+    console.log(`here's your pasta made with ${ing1}, ${ing2} and ${ing3}`);
   }
 };
+
+// const ingredients = [prompt(`Ingredient 1?`), prompt(`Ingredient 2?`), prompt(`Ingredient 3?`)]
+// restaurant.orderPasta(...ingredients);
 
 // restaurant.orderDelivery({
 //   time: '23:23',
@@ -100,4 +107,25 @@ const restaurant = {
 // ! The spread operator
 const arr = [7, 8, 9];
 const newArr = [1, 2, 3, ...arr];
-console.log(newArr);
+console.log(...newArr);
+
+const newMenu = [...restaurant.mainMenu, 'item spread 1', 'item spread 2']
+console.log(newMenu);
+
+//useful for making array copies
+const mainMenuCopy = [...restaurant.mainMenu];
+console.log(...mainMenuCopy);
+
+//joining arrays
+const fullMenu = [...restaurant.mainMenu, ...restaurant.starterMenu];
+console.log(...fullMenu)
+
+//spread operator works on all iterables
+const str = 'Jonas';
+const letterArray = [...str, ' ', 'S.']
+console.log(letterArray);
+
+// * spread with objects
+const restauraneNuevo = {...restaurant};
+const newRestaurant = {restaurant};
+console.log(restauraneNuevo, newRestaurant);
