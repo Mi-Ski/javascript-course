@@ -1,51 +1,94 @@
 'use strict';
 
+const weekdays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+const openingHours = {
+  // ? 'wed', 'day-4', 'sat';
+  [weekdays[0]]: {
+    open: 12,
+    close: 22,
+  },
+  [`day-${2**2}`]: {
+    open: 11,
+    close: 23,
+  },
+  [weekdays[3]]: {
+    open: 11,
+    close: 23,
+  },
+  ['s' + 'a' + 't']: {
+    open: 0, // Open 24 hours
+  ['clo' + 'se']: 24,
+  },
+};
+
+
 const restaurant = {
   name: 'Classico Italiano',
   location: 'Via Angelo Tavanti 23, Firenze, Italy',
   categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
   mainMenu: ['Pizza', 'Pasta', 'Risotto'],
   starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
-
-  openingHours: {
-    thu: {
-      open: 12,
-      close: 22,
-    },
-    fri: {
-      open: 11,
-      close: 23,
-    },
-    sat: {
-      open: 0, // Open 24 hours
-      close: 24,
-    },
+  
+  // ! enhanced objects literal
+  openingHours,
+  
+  //* order(star...) is the same as order: function(star...);
+  order(starterIndex, mainIndex) {
+    return  [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
   },
-
-  order: function (starterIndex, mainIndex) {
-    return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
-  },
-
-  orderDelivery: function ({ starterIndex, mainIndex, time, address }) {
+  
+  orderDelivery ({ starterIndex, mainIndex, time, address }) {
     console.log(starterIndex, mainIndex, address, time);
   },
-
-  orderPasta: function (ing1, ing2, ing3) {
+  
+  orderPasta (ing1, ing2, ing3) {
     console.log(`here's your pasta made with ${ing1}, ${ing2} and ${ing3}`);
   },
 };
 
+// ! Optional chaining
+// operation only happens if objects before ?. exist
+// console.log(restaurant.openingHours.mon?.open);
+
+for (const el of weekdays) {
+  // '??' instead of '||' not to count 0 as a false value
+  const open = restaurant.openingHours[el]?.open  ?? 'closed';
+  console.log(`On ${el} we're open at ${open}. `);
+}
+
+//methods
+console.log(restaurant.order?.(0,1) ?? 'this method is not defined');
+//arrays
+const users = [{nae: 'jonas', age: 21}];
+console.log(users[0]?.name ?? "user doesn't have a name");
+
+// ! For-of loop
+// const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
+
+// for (const item of menu) console.log(item);
+
+// for (const item of menu.entries()) console.log(item[0]);
+
+// for (const item of [...menu.entries()]) {
+  //   console.log(`Menu item ${item[0] + 1}: ${item[1]}`);
+  // }
+  
+  // * the same, but with destructuring
+  // for (const [itemIndex, itemName] of menu.entries()) {
+    //   console.log(`Menu item ${itemIndex}: ${itemName}`);
+// }
+
 // const ingredients = [prompt(`Ingredient 1?`), prompt(`Ingredient 2?`), prompt(`Ingredient 3?`)]
 // restaurant.orderPasta(...ingredients);
 
-
-const order = {
-  time: '23:23',
-  address: 'Long street 23',
-  mainIndex: 2,
-  starterIndex: 0
-}
-restaurant.orderDelivery({...order});
+// const order = {
+//   time: '23:23',
+//   address: 'Long street 23',
+//   mainIndex: 2,
+//   starterIndex: 0
+// }
+// restaurant.orderDelivery({...order});
 
 // let [starter1, main1] = restaurant.order(3, 2);
 // console.log(starter1, main1, 'desctructured dishes');
@@ -135,49 +178,49 @@ restaurant.orderDelivery({...order});
 // ! Rest pattern and parameters
 // * destructuring
 // spread
-const arr = [1, 2, ...[3, 4, 5]];
-console.log(arr); // 1,2,3,4,5
+// const arr = [1, 2, ...[3, 4, 5]];
+// console.log(arr); // 1,2,3,4,5
 
 //destructuring with Rest syntax
-const [a, b, ...others] = arr;
-console.log(a, b, others); // 1,2, [3,4,5]
+// const [a, b, ...others] = arr;
+// console.log(a, b, others); // 1,2, [3,4,5]
 
 //---
-const [pizza, , risotto, ...restOfTheMenu] = [...restaurant.mainMenu, ...restaurant.starterMenu];
-console.log(pizza, risotto, restOfTheMenu); //skipped elements not included
+// const [pizza, , risotto, ...restOfTheMenu] = [...restaurant.mainMenu, ...restaurant.starterMenu];
+// console.log(pizza, risotto, restOfTheMenu); //skipped elements not included
 
 // objects
-const { sat, ...weekdays } = restaurant.openingHours;
-console.log(sat, weekdays);
+// const { sat, ...weekdays } = restaurant.openingHours;
+// console.log(sat, weekdays);
 
 // * functions
-const add = function(...numbers) {
-  // rest syntax takes multiple arguments and packs them in one array, spreading results so only numbers are logged
-  console.log(...numbers);
+// const add = function(...numbers) {
+//   // rest syntax takes multiple arguments and packs them in one array, spreading results so only numbers are logged
+//   console.log(...numbers);
 
-  let sum = 0;
-  for (let i = 0; i < numbers.length; i++) {
-    sum += numbers[i];
-  }
-  console.log(" XXXXXX " + sum);
-}
+//   let sum = 0;
+//   for (let i = 0; i < numbers.length; i++) {
+//     sum += numbers[i];
+//   }
+//   console.log(" XXXXXX " + sum);
+// }
 
-add(2,3,3);
-add(3);
-add(34,56,7,8,4,2)
+// add(2,3,3);
+// add(3);
+// add(34,56,7,8,4,2)
 
-const spreadAndRest = [21, 4, 5];
-add(...spreadAndRest);
+// const spreadAndRest = [21, 4, 5];
+// add(...spreadAndRest);
 
 // ! Short circuiting
 // && ||, and or
 // nullish coalescing operator
 
-restaurant.numGuests = 0;
-const guests = restaurant.numGuests || 10;
-console.log(guests);
+// restaurant.numGuests = 0;
+// const guests = restaurant.numGuests || 10;
+// console.log(guests);
 
 // nullish operator looks at nullish values, not false values,
 // nullish: null, undefined, (not 0, '')
-const guestsCorrect = restaurant.numGuests ?? 10;
-console.log(guestsCorrect);
+// const guestsCorrect = restaurant.numGuests ?? 10;
+// console.log(guestsCorrect);
