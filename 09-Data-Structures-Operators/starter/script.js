@@ -8,7 +8,7 @@ const openingHours = {
     open: 12,
     close: 22,
   },
-  [`day-${2**2}`]: {
+  [`day-${2 ** 2}`]: {
     open: 11,
     close: 23,
   },
@@ -18,10 +18,35 @@ const openingHours = {
   },
   ['s' + 'a' + 't']: {
     open: 0, // Open 24 hours
-  ['clo' + 'se']: 24,
+    ['clo' + 'se']: 24,
   },
 };
 
+// ! Looping objects
+// * property names
+// const properties = Object.keys(openingHours);
+// // returns an array
+// console.log(properties);
+
+// let openString = `we are open on ${properties.length} days: `;
+
+// for (const day of Object.keys(openingHours)) {
+//   openString += `${day}, `;
+// }
+// console.log(openString);
+
+// * property values
+// const values = Object.values(openingHours);
+// console.log(values);
+
+// * entries
+// const entries = Object.entries(openingHours);
+// console.log(entries);
+
+// // destructuring both the entries array and the values object inside of it
+// for( const [key, {open, close}] of entries) {
+//   console.log(`On ${key} we open at ${open} and close at ${close}.`);
+// }
 
 const restaurant = {
   name: 'Classico Italiano',
@@ -29,39 +54,134 @@ const restaurant = {
   categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
   mainMenu: ['Pizza', 'Pasta', 'Risotto'],
   starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
-  
+
   // ! enhanced objects literal
   openingHours,
-  
+
   //* order(star...) is the same as order: function(star...);
   order(starterIndex, mainIndex) {
-    return  [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
+    return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
   },
-  
-  orderDelivery ({ starterIndex, mainIndex, time, address }) {
+
+  orderDelivery({ starterIndex, mainIndex, time, address }) {
     console.log(starterIndex, mainIndex, address, time);
   },
-  
-  orderPasta (ing1, ing2, ing3) {
+
+  orderPasta(ing1, ing2, ing3) {
     console.log(`here's your pasta made with ${ing1}, ${ing2} and ${ing3}`);
   },
 };
+
+//! Maps
+const restMap = new Map();
+restMap.set('name', 'Classico Italiano');
+restMap.set(1, 'Firenze, Italy');
+restMap.set(2, 'Lisbon Portugal');
+// *set also returns the map
+// console.log(restMap.set(3, 'Madrid, Spain'));
+
+// *chaining
+restMap
+  .set('categories', ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'])
+  .set('open', 8)
+  .set('close', 23)
+  .set(true, 'We are open')
+  .set(false, 'We are closed');
+
+// *reading map values
+// console.log(restMap.get('name'));
+// console.log(restMap.get(true));
+
+// const time = 21;
+// const openOrClosed = restMap.get( time > restMap.get('open') && time < restMap.get('close'))
+// console.log(openOrClosed);
+
+// console.log(restMap.has('categories'));
+// console.log(restMap)
+// restMap.delete(2);
+// console.log(restMap.size);
+// // restMap.clear();
+// restMap.set(document.querySelector('h1'), 'Main Heading');
+// const arr = [1,2,3];
+// restMap.set(arr, "test");
+// console.log(restMap);
+
+// * convert objects to maps
+// console.log(Object.entries(openingHours));
+// const hoursMap = new Map(Object.entries(openingHours));
+// console.log(hoursMap);
+
+// * Map iteration
+const question = new Map([
+  ['question', 'What is the best programming language in the world?'],
+  [1, 'C'],
+  [2, 'Java'],
+  [3, 'JavaScript'],
+  ['correct', 3],
+  [true, 'Correct'],
+  [false, 'Try again!']
+]);
+// console.log(restMap);
+// console.log(question);
+
+console.log(question.get('question'));
+for (const [key, value] of question) {
+  if (typeof key === "number") {
+    console.log(`Answer ${key}: ${value}`);
+  }
+}
+// const answer = Number(prompt('Your answer', "0"));
+
+// console.log(question.get(answer === question.get('correct')));
+
+// * convert map to array
+console.log([...restMap]);
+console.log('XXXXXXXXXXXXXXXXXXXXXX');
+console.log([...question.keys()]);
+console.log([...question.values()]);
+console.log([...question.entries()]);
+
+// ! Sets
+// const orderSet = new Set([
+//   'Pasta',
+//   'Pizza',
+//   'Pizza',
+//   'pizza',
+//   'Risotto',
+//   'Pasta',
+// ]);
+
+// console.log(orderSet.size);
+// console.log(orderSet.has('Pizza'));
+// orderSet.add('Garlic bread');
+// orderSet.add('Garlic bread');
+// orderSet.delete('pizza');
+// // orderSet.clear();
+// console.log(orderSet);
+
+// for (const order of orderSet) console.log(order);
+// const restaurantStaffArray = ['Waiter', 'Chef', 'Waiter', 'Owner', 'Chef', 'Waiter'];
+// const staffPositions = new Set(restaurantStaffArray);
+// // const staffPositionsArray = [...staffPositions];
+// const staffPositionsSize = new Set(restaurantStaffArray).size;
+// console.log(staffPositionsSize);
+// console.log(new Set('schmedtmann').size);
 
 // ! Optional chaining
 // operation only happens if objects before ?. exist
 // console.log(restaurant.openingHours.mon?.open);
 
-for (const el of weekdays) {
-  // '??' instead of '||' not to count 0 as a false value
-  const open = restaurant.openingHours[el]?.open  ?? 'closed';
-  console.log(`On ${el} we're open at ${open}. `);
-}
+// for (const el of weekdays) {
+// '??' instead of '||' not to count 0 as a false value
+//   const open = restaurant.openingHours[el]?.open  ?? 'closed';
+//   console.log(`On ${el} we're open at ${open}. `);
+// }
 
 //methods
-console.log(restaurant.order?.(0,1) ?? 'this method is not defined');
+// console.log(restaurant.order?.(0,1) ?? 'this method is not defined');
 //arrays
-const users = [{nae: 'jonas', age: 21}];
-console.log(users[0]?.name ?? "user doesn't have a name");
+// const users = [{nae: 'jonas', age: 21}];
+// console.log(users[0]?.name ?? "user doesn't have a name");
 
 // ! For-of loop
 // const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
@@ -71,12 +191,12 @@ console.log(users[0]?.name ?? "user doesn't have a name");
 // for (const item of menu.entries()) console.log(item[0]);
 
 // for (const item of [...menu.entries()]) {
-  //   console.log(`Menu item ${item[0] + 1}: ${item[1]}`);
-  // }
-  
-  // * the same, but with destructuring
-  // for (const [itemIndex, itemName] of menu.entries()) {
-    //   console.log(`Menu item ${itemIndex}: ${itemName}`);
+//   console.log(`Menu item ${item[0] + 1}: ${item[1]}`);
+// }
+
+// * the same, but with destructuring
+// for (const [itemIndex, itemName] of menu.entries()) {
+//   console.log(`Menu item ${itemIndex}: ${itemName}`);
 // }
 
 // const ingredients = [prompt(`Ingredient 1?`), prompt(`Ingredient 2?`), prompt(`Ingredient 3?`)]
