@@ -107,25 +107,126 @@
 // ['Mark', 'Marcus', 'Marx'].forEach(high5);
 
 // * Functions returning functions
-const greet = function (greeting) {
-  return function (name) {
-    console.log(`${greeting} ${name}`);
-  };
+// const greet = function (greeting) {
+//   console.log(greeting);
+//   return function (name) {
+//     console.log(`${greeting} ${name}`);
+//   };
+// };
+
+// const greeterHey = greet('hey hey');
+// greeterHey('Jonas');
+// greeterHey('Mi')
+// greet('testing')('test');
+
+// const greetArr = greeting => name => console.log(`${greeting} ${name}`);
+
+// const theSameGreetArr = (greeting) => {
+//    return (name) => {
+//       console.log(`${greeting} ${name}`);
+//    }
+// }
+
+// greetArr('greetings')('dude');
+// theSameGreetArr('greetings2')('dude2');
+
+// ! The call and apply methods
+
+const lufthansa = {
+  airline: 'Lufthansa',
+  iataCode: 'LH',
+  bookings: [],
+  // enhanced object literal syntax method
+  book(flightNum, name) {
+    console.log(
+      `${name} booked a seat on ${this.airline} flight ${this.iataCode}${flightNum}`
+    );
+
+    this.bookings.push({
+      flight: `${this.iataCode}${flightNum}`,
+      name: `${this.name}`,
+    });
+  },
 };
 
-const greeterHey = greet('hey hey');
-greeterHey('Jonas');
-greeterHey('Mi')
+lufthansa.book(234, 'John Smith');
+lufthansa.book(535, 'Mary Jonoes');
+console.log(lufthansa);
 
-greet('testing')('test');
+const eurowings = {
+  airline: 'Eurowings',
+  iataCode: 'EW',
+  bookings: [],
+  // book: book
+};
 
-const greetArr = greeting => name => console.log(`${greeting} ${name}`);
+const book = lufthansa.book;
+// eurowings.book(234, 'John Smith');
+// eurowings.book(535, 'Mary Jonoes');
 
-const theSameGreetArr = (greeting) => {
-   return (name) => {
-      console.log(`${greeting} ${name}`);
-   }
+// * call: first argument - this keyword
+// calling the book method with "eurowings" this keyword
+book.call(eurowings, 32, 'test');
+
+book.call(eurowings, 422, 'test2');
+
+const swiss = {
+  airline: 'swiss airlines',
+  iataCode: 'LX',
+  bookings: [],
+};
+
+book.call(swiss, 588, 'Hans Hansenberg');
+
+// ! Apply method
+// * the same as Call, but takes an array with arguments
+const flightData = [645, 'George Cooper'];
+// fist argument: this keyword, 2nd: an array with data
+book.apply(swiss, flightData);
+console.log(swiss);
+
+// apply is the same as using call with spread
+book.call(swiss, ...flightData);
+
+// ! Bind method
+const bookEurowings = book.bind(eurowings);
+const bookLufthansa = book.bind(lufthansa);
+const bookSwiss = book.bind(swiss);
+bookEurowings(232, 'Dgd gdg');
+bookSwiss(344, 'dfhdfdff');
+bookLufthansa(34, 'sdfsdf');
+
+const bookEurowings345 = book.bind(eurowings, 345);
+bookEurowings345('Nate');
+bookEurowings345('Jack');
+//partial application: part of the arguments is already applied
+
+
+
+lufthansa.planes = 300;
+lufthansa.buyPlane = function() {
+  console.log(this);
+  this.planes++;
+  console.log(this.planes);
 }
 
-greetArr('greetings')('dude');
-theSameGreetArr('greetings2')('dude2');
+const buttonBuy = document.querySelector('.buy');
+// binding because event handlers set this to the DOM element the handler is attached to
+// binding instead of calling because call would execute the function immediately
+buttonBuy.addEventListener('click', lufthansa.buyPlane.bind(lufthansa));
+
+// Partial application 
+
+const addTax = (rate, ammount) => ammount + ammount * rate;
+console.log(addTax(300, .3));
+
+// setting this keyword to null since it's not used in this example
+const addVAT = addTax.bind(null, .23);
+
+const addTaxReturn = function(rate) {
+  return function(ammount) {
+    console.log(ammount + ammount * rate);
+  }
+}
+const addVATreturn = addTaxReturn(.23);
+addVATreturn(2222);
