@@ -80,10 +80,15 @@ const accounts = [account1, account2, account3, account4];
 // );
 // console.log(...movementsDescriptions);
 
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort) {
 	containerMovements.innerHTML = '';
 
-	movements.forEach((el, index) => {
+	// creating a copy with slice()
+	const movs = sort ? movements.slice().sort( (a, b) => {
+		return a - b; 
+	}) : movements;
+
+	movs.forEach((el, index) => {
 		const type = el > 0 ? 'deposit' : 'withdrawal';
 		const html = `
 			  <div class="movements__row">
@@ -149,6 +154,13 @@ const clearInputs = () => {
 	// blur makes the input lose focus
 	inputLoginPin.blur();
 	inputLoginUsername.blur();
+	
+	inputClosePin.value = inputCloseUsername.value = '';
+	inputCloseUsername.blur();
+	inputClosePin.blur();
+
+	inputLoanAmount.value = '';
+	inputLoanAmount.blur();
 };
 ///////////////////////////////
 // ! global current account variable
@@ -189,3 +201,48 @@ btnTransfer.addEventListener('click', (event) => {
 		updateUI(acc);
 	}
 });
+
+btnClose.addEventListener('click', (event) => {
+	event.preventDefault();
+
+	// find and delete user from accounts array
+	if (acc.username === inputCloseUsername.value && acc.pin === Number(inputClosePin.value)) {
+		accounts.splice(
+			accounts.findIndex((el) => {
+				return el.username === acc.username;
+			}),
+			1
+		);
+	}
+	//hide UI (logout the deleted user)
+	containerApp.style.opacity = 0;
+	clearInputs();
+});
+
+btnLoan.addEventListener('click', (event) => {
+	event.preventDefault();
+
+	const loanAmmount = Number(inputLoanAmount.value); 
+	// loan only granted when there's a deposit of 10% or more of the requested amount
+	if ( loanAmmount > 0 && acc.movements.some ( el => {
+		return el >= loanAmmount * .1;
+	})) {
+		//add the positive movement
+		acc.movements.push(loanAmmount);
+		//update ui
+		updateUI(acc);
+		clearInputs();
+	}
+})
+
+let sorted = false;
+btnSort.addEventListener('click', (event) => {
+	event.preventDefault();
+	displayMovements(acc.movements, !sorted);
+	sorted = !sorted;
+})
+
+const movementsValNode = Array.from(document.querySelectorAll('.movements__value'), (v, k) => {
+	return Number(v.textContent.replace('€', ''))
+});
+console.log(movementsValNode);
