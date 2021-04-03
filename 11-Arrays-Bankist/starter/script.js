@@ -84,9 +84,11 @@ const displayMovements = function (movements, sort) {
 	containerMovements.innerHTML = '';
 
 	// creating a copy with slice()
-	const movs = sort ? movements.slice().sort( (a, b) => {
-		return a - b; 
-	}) : movements;
+	const movs = sort
+		? movements.slice().sort((a, b) => {
+				return a - b;
+		  })
+		: movements;
 
 	movs.forEach((el, index) => {
 		const type = el > 0 ? 'deposit' : 'withdrawal';
@@ -154,7 +156,7 @@ const clearInputs = () => {
 	// blur makes the input lose focus
 	inputLoginPin.blur();
 	inputLoginUsername.blur();
-	
+
 	inputClosePin.value = inputCloseUsername.value = '';
 	inputCloseUsername.blur();
 	inputClosePin.blur();
@@ -222,27 +224,60 @@ btnClose.addEventListener('click', (event) => {
 btnLoan.addEventListener('click', (event) => {
 	event.preventDefault();
 
-	const loanAmmount = Number(inputLoanAmount.value); 
+	const loanAmmount = Number(inputLoanAmount.value);
 	// loan only granted when there's a deposit of 10% or more of the requested amount
-	if ( loanAmmount > 0 && acc.movements.some ( el => {
-		return el >= loanAmmount * .1;
-	})) {
+	if (
+		loanAmmount > 0 &&
+		acc.movements.some((el) => {
+			return el >= loanAmmount * 0.1;
+		})
+	) {
 		//add the positive movement
 		acc.movements.push(loanAmmount);
 		//update ui
 		updateUI(acc);
 		clearInputs();
 	}
-})
+});
 
 let sorted = false;
 btnSort.addEventListener('click', (event) => {
 	event.preventDefault();
 	displayMovements(acc.movements, !sorted);
 	sorted = !sorted;
-})
+});
 
 const movementsValNode = Array.from(document.querySelectorAll('.movements__value'), (v, k) => {
-	return Number(v.textContent.replace('€', ''))
+	return Number(v.textContent.replace('€', ''));
 });
 console.log(movementsValNode);
+
+const bankDepositSum = accounts
+	.flatMap((el) => {
+		return el.movements;
+	})
+	.filter((el) => {
+		return el > 0;
+	})
+	.reduce((acc, el) => {
+		return acc + el;
+	}, 0);
+console.log(bankDepositSum);
+
+// no. of deposits over $1000
+// const depositsOver1000 = accounts.flatMap( el => {
+// 	return el.movements;
+// }).filter( el => el > 1000).length;
+// console.log(depositsOver1000);
+
+const depositsOver1000 = accounts
+	.flatMap((el) => {
+		return el.movements;
+	})
+	.reduce((accumulator, el) => (el > 1000 ? ++accumulator : accumulator), 0);
+
+console.log(depositsOver1000);
+
+let a = 10;
+console.log(a++);
+console.log(a);
