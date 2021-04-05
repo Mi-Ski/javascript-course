@@ -279,5 +279,36 @@ const depositsOver1000 = accounts
 console.log(depositsOver1000);
 
 let a = 10;
-console.log(a++);
+console.log(++a);
 console.log(a);
+
+// creating an object with reduce
+const { deposits, withdrawals } = accounts
+	.flatMap((el) => el.movements)
+	.reduce(
+		(acc, el) => {
+			acc[el > 0 ? 'deposits' : 'withdrawals'] += el;
+			return acc;
+		},
+		{ deposits: 0, withdrawals: 0 }
+	);
+
+const convertTitleCase = (title) => {
+	const exceptions = ['a', 'an', 'and' ,'the', 'but', 'or', 'on', 'in', 'with'];
+
+	const capitalize = (word) => {
+		return word[0].toUpperCase() + word.slice(1);
+	}
+	const titleCase = title
+		.toLowerCase()
+		.split(' ')
+		.map((el) => {
+			return exceptions.includes(el) ? el : capitalize(el);
+		}).join(' ');
+
+	return capitalize(titleCase);
+};
+
+console.log(convertTitleCase('this is a nice titile'));
+console.log(convertTitleCase('this is a LONG title but not too long'));
+console.log(convertTitleCase('and here is another title with an EXAMPLE'));

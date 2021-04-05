@@ -73,6 +73,6 @@
     "scripts": true
   },
   "editor.wordWrapColumn": 120,
-  "editor.fontSize": 20,
-  "liveServer.settings.port": 5501
+  "editor.fontSize": 18,
+  "liveServer.settings.port": 5502
 }
