@@ -26,7 +26,6 @@ const closeModal = function () {
 // for (let i = 0; i < btnsOpenModal.length; i++)
 //   btnsOpenModal[i].addEventListener('click', openModal);
 btnsOpenModal.forEach(el => el.addEventListener('click', openModal));
-
 btnCloseModal.addEventListener('click', closeModal);
 overlay.addEventListener('click', closeModal);
 
@@ -157,17 +156,17 @@ const sectionObserver = new IntersectionObserver(sectionCallback, {
 
 allSections.forEach(el => {
   sectionObserver.observe(el);
-  el.classList.add('section--hidden');
+  // el.classList.add('section--hidden');
 });
 
 //! lazy loading images
+//select all img elements with a data-scr attribute
 const imgTargets = document.querySelectorAll('img[data-src]');
 console.log(imgTargets);
 
 const imgObserver = new IntersectionObserver(
   (entries, observer) => {
     const [entry] = entries;
-    // console.log(entry);
     if (!entry.isIntersecting) return;
     //replaced but not showing up updated on the page
     else entry.target.src = entry.target.dataset.src;
@@ -177,16 +176,91 @@ const imgObserver = new IntersectionObserver(
     });
 
     //entry.target = observed, loaded el in imgTargets
-    observer.unobserve(entry.target)
+    observer.unobserve(entry.target);
   },
   {
     root: null,
     threshold: 0,
     //root margin so lazy-loading isn't that noticeable
-    rootMargin: '300px'
+    rootMargin: '300px',
   }
 );
 
 imgTargets.forEach(el => {
   imgObserver.observe(el);
+});
+
+//! Slider
+const slides = document.querySelectorAll('.slide');
+const slider = document.querySelector('.slider');
+const btnLeft = document.querySelector('.slider__btn--left');
+const btnRight = document.querySelector('.slider__btn--right');
+// 0%, 100%, 200%, 300%...
+
+let currentSlide = 0;
+const lastSlide = slides.length - 1;
+
+// dots
+const dotContainer = document.querySelector('.dots');
+
+const createDots = () => {
+  slides.forEach((_, i) => {
+    dotContainer.insertAdjacentHTML(
+      'beforeend',
+      `<button class="dots__dot" data-slide-number="${i}"></button>`
+    );
+  });
+};
+createDots();
+
+dotContainer.addEventListener('click', e => {
+  if (e.target.classList.contains('dots__dot')) {
+    const { slideNumber } = e.target.dataset;
+    goToSlide(slideNumber);
+  }
+});
+
+const activateDot = slideNumber => {
+  document.querySelectorAll('.dots__dot').forEach(dot => {
+    dot.classList.remove('dots__dot--active');
+  });
+
+  const active = document.querySelector(
+    `.dots__dot[data-slide-number="${slideNumber}"]`
+  );
+  console.log(active);
+  active.classList.add('dots__dot--active');
+};
+
+const goToSlide = slideNumber => {
+  slides.forEach((el, i) => {
+    el.style.transform = `translateX(${100 * (i - slideNumber)}%)`;
+  });
+  activateDot(slideNumber);
+};
+
+goToSlide(0);
+
+const nextSlide = () => {
+  if (currentSlide === lastSlide) {
+    currentSlide = 0;
+  } else {
+    currentSlide++;
+  }
+  goToSlide(currentSlide);
+};
+const prevSlide = () => {
+  if (currentSlide === 0) currentSlide = lastSlide;
+  else {
+    currentSlide--;
+  }
+  goToSlide(currentSlide);
+};
+
+btnRight.addEventListener('click', nextSlide);
+btnLeft.addEventListener('click', prevSlide);
+//keyboard events are handled by the document
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft') prevSlide();
+  else if (e.key === 'ArrowRight') nextSlide();
 });
