@@ -133,9 +133,9 @@ const stickyNavCallback = function (entries) {
 
 const headerObs = new IntersectionObserver(stickyNavCallback, {
   root: null,
-  threshold: 0,
-  // rootMargin = adding a margin of specified size around the target element(header)
+  // rootMargin = adding a margin of specified size around the root
   rootMargin: `-${navHeight}px`,
+  threshold: 0,
 });
 headerObs.observe(header);
 
