@@ -179,30 +179,141 @@
 // sarah.init('Sarah', 1981);
 // console.log(sarah);
 
-class Car {
-  constructor(make, speed) {
-    this.make = make;
-    this.speed = speed; 
-  }
+// class Car {
+//   constructor(make, speed) {
+//     this.make = make;
+//     this.speed = speed;
+//   }
 
-  Accelerate() {
-    return this.speed += 10;
-  }
-  Brake() {
-    return this.speed -= 5;
-  }
+//   Accelerate() {
+//     return this.speed += 10;
+//   }
+//   Brake() {
+//     return this.speed -= 5;
+//   }
 
-  get speedUS() {
-    return this.speed / 1.6;
-  }
-  set speedUS(speed){
-    this.speed = speed * 1.6;
-  }
-} 
+//   get speedUS() {
+//     return this.speed / 1.6;
+//   }
+//   set speedUS(speed){
+//     this.speed = speed * 1.6;
+//   }
+// }
 
-const bmw = new Car('BMW', 10);
-console.log(bmw.speed);
-console.log(bmw.speedUS);
+// const bmw = new Car('BMW', 10);
+// console.log(bmw.speed);
+// console.log(bmw.speedUS);
 
-bmw.speedUS = 50;
-console.log(bmw);
+// bmw.speedUS = 50;
+// console.log(bmw);
+
+// //* Person - parent class, Student - child class
+
+// const Person = function (firstName, birthYear) {
+//   this.firstName = firstName;
+//   this.birthYear = birthYear;
+// }
+
+// Person.prototype.calcAge = function () {
+//   console.log(2021 - this.birthYear);
+// }
+
+// const Student = function(firstName, birthYear, course) {
+//   //function calls don't have their own this keyword
+//   //? this keyword in Person function will be set to Student function
+//   Person.call(this, firstName, birthYear);
+//   this.course = course;
+// }
+
+// //? linking prototypes
+// Student.prototype = Object.create(Person.prototype);
+
+// Student.prototype.introduce = function () {
+//   console.log(`My name is ${this.firstName} and I study ${this.course}.`);
+// }
+
+// const mike = new Student ('Mike', 1997, 'CompSci');
+// console.log(mike);
+
+// Student.prototype.constructor = Student;
+// console.log(mike);
+
+// const Car = function (make, speed) {
+// 	this.make = make;
+// 	this.speed = speed;
+// };
+
+
+// const EV = function(charge, make, speed) {
+// 	//using EV's parameters in the parent class
+// 	Car.call(this, make, speed);
+// 	this.charge = charge;
+// }
+// //linking proto
+// EV.prototype = Object.create(Car.prototype);
+// EV.prototype.chargeBattery = function(chargeTo) {
+// 	this.charge = chargeTo;	 
+// 	console.log(`${this.make}'s battery is at ${this.charge}%`);
+// }
+// EV.prototype.accelerate = function () {
+// 	this.speed += 10;
+// 	this.charge -=1;
+// 	console.log(`${this.make} is going ${this.speed}km/h. (${this.charge}% charge)`);
+// };
+
+// const tesla = new EV(90, 'Tesla', 100);
+
+// tesla.chargeBattery(10);
+
+// tesla.accelerate();
+class Person {
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
+    this.year = birthYear;
+  }
+  // all methods will be on the prototype, not objects themselves
+  calcAge() {
+    const now = new Date().getFullYear();
+	console.log(now - this.year);
+  }
+  greetings() {
+    console.log(`Greetings, ${this.fullName}.`);
+  }
+  set fullName(name) {
+    if(name.includes(' ')){
+      this._fullName = name;
+    } else console.log('not a full name');
+  }
+  get fullName() {
+    return this._fullName;
+  }
+  get age() {
+    return 2021 - this.year;
+  }
+  static hey() {
+	  console.log(`Hey!	`);
+  }
+}
+
+// extends keyword links prototypes
+class Student extends Person {
+	//constructor not needed when the subclass has exactly the same properties as the parent class
+	constructor(name, birthY, course) {
+		// super = constructor funciton of the parent class
+		//responsible for creating this keyword in this subclass, needs to happen first
+		super(name, birthY);
+		this.course = course;
+	}
+
+	introduce() {
+		console.log(`Hi, I'm ${this.fullName}, I'm ${this.age} years old.`);
+	}
+
+	calcAge() {
+		console.log(`${this.fullName} is ${2021 - this.year} yo`);
+	}
+}
+
+const martha = new Student('Martha ', 2010, 'CompSci');
+console.log(martha);
+martha.calcAge();
