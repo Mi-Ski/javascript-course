@@ -66,10 +66,12 @@ const eurToUsd = 1.2;
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-const displayMovements = (movements) => {
+const displayMovements = (movements, sort = false) => {
 	containerMovements.innerHTML = '';
 
-	movements.forEach((el, i) => {
+	const movs = sort ? movements.slice('').sort((a, b) => a - b) : movements;
+
+	movs.forEach((el, i) => {
 		const template = `
         <div class="movements__row">
           <div class="movements__type movements__type--${
@@ -91,8 +93,9 @@ const compUsername = (accounts) => {
 			.map((el) => el[0])
 			.join('');
 	});
+	// return accounts;
 };
-console.log(compUsername(accounts));
+compUsername(accounts);
 console.log(...accounts);
 
 const calcDisplayMovements = (acc, currency = '€') => {
@@ -123,23 +126,53 @@ const calcDisplayBalance = (acc) => {
 
 btnTransfer.addEventListener('click', (e) => {
 	e.preventDefault();
+
 	const amount = Number(inputTransferAmount.value);
-	const receiverAcc = accounts.find(el => {
-		return el.username === inputTransferTo.value;
-	})
-	console.log(amount,receiverAcc);
+	const receiverAcc = accounts.find(
+		(el) => el.username === inputTransferTo.value
+	);
+	console.log(amount, receiverAcc);
 
-	// if(
+	if (
+		amount > 0 &&
+		activeAcc.balance >= amount &&
+		receiverAcc.username !== activeAcc.username
+	) {
+		console.log(`Transfer valid.`);
+		activeAcc.movements.push(-amount);
+		receiverAcc.movements.push(amount);
 
-	// )
-})
-// max mov
-// const max = movements.reduce((cur, el) => {
-// 	if (cur < el) cur = el;
-// 	return cur;
-// });
-// console.log(max);
-// console.log(movements.find((el) => el < 0));
+		updateUI();
+	}
+	inputTransferAmount.value = inputTransferTo.value = '';
+});
+
+btnLoan.addEventListener('click', (e) => {
+	e.preventDefault();
+	const amount = Number(inputLoanAmount.value);
+	if (amount > 1 && activeAcc.movements.some((el) => el >= amount * 0.1)) {
+		activeAcc.movements.push(amount);
+		updateUI();
+	}
+	inputLoanAmount.value = '';
+});
+
+btnClose.addEventListener('click', (e) => {
+	e.preventDefault();
+
+	if (
+		inputCloseUsername.value === activeAcc.username &&
+		Number(inputClosePin.value) === activeAcc.pin
+	) {
+		const index = accounts.findIndex(
+			(acc) => acc.username === activeAcc.username
+		);
+		console.log(index);
+		accounts.splice(index, 1); //mutates the original array
+		containerApp.style.opacity = 0;
+	}
+	inputLoginPin.value = inputLoginUsername.value = '';
+});
 
 // LOGIN
 let activeAcc;
@@ -158,8 +191,41 @@ btnLogin.addEventListener('click', (e) => {
 		inputLoginUsername.blur();
 		//
 		containerApp.style.opacity = 1;
-		displayMovements(activeAcc.movements);
-		calcDisplayMovements(activeAcc);
-		calcDisplayBalance(activeAcc);
+		updateUI();
 	}
 });
+
+const updateUI = () => {
+	calcDisplayMovements(activeAcc);
+	displayMovements(activeAcc.movements);
+	calcDisplayBalance(activeAcc);
+};
+
+let sorted = false;
+btnSort.addEventListener('click', function (e) {
+	e.preventDefault();
+	displayMovements(activeAcc.movements, !sorted);
+	sorted = !sorted;
+});
+
+// const bodyColor = document.querySelector('body').style;
+// const blue = 'blue';
+// const powderblue = 'powderblue';
+
+// bodyColor.backgroundColor = powderblue;
+// let currentPowderBlue = true;
+
+// const switchBodyColor = () => {
+// 	if (currentPowderBlue) {
+// 		bodyColor.backgroundColor = blue;
+// 		currentPowderBlue = false;
+// 	} else if (!currentPowderBlue){
+// 		bodyColor.backgroundColor = powderblue;
+// 		currentPowderBlue = true;
+// 	}
+// };
+
+// function interval() {
+// 	setInterval(switchBodyColor, 100);
+// }
+// interval();
