@@ -27,16 +27,29 @@
       "statusBar.background": "#000000"
     },
     "[Monokai Pro]": {
-      "editorLineNumber.foreground": "#59ff99",
       "editorLineNumber.activeForeground": "#ffc400",
-      // "editor.background": "#181818",
-      // "editorGutter.background": "#151515"
+      "editor.background": "#231F22",
+      "editorGutter.background": "#231f22"
     }
   },
 
   "editor.tokenColorCustomizations": {
     "[NotepadPlusPlus Remixed Theme]": {
       "comments": "#a7a7a7"
+    },
+    "[Monokai Pro]": {
+      "textMateRules": [
+        {
+            "scope": [
+                "comment.line",
+                "punctuation.definition.comment.end",
+                "punctuation.definition.comment.begin"
+            ],
+            "settings": {
+                "fontStyle": ""
+            }
+        }
+      ]
     }
   },
   "auto-close-tag.enableAutoCloseSelfClosingTag": true,
@@ -63,16 +76,14 @@
     }
   ],
   "files.exclude": {
-    ".gitignore": true,
-    "**/ErrorBoundary": true,
-    "config": true,
-    "node_modules": true,
-    "package-lock.json": true,
-    "package.json": true,
-    "public": true,
-    "scripts": true
-  },
-  "editor.wordWrapColumn": 120,
-  "editor.fontSize": 20,
-  "liveServer.settings.port": 5502
+    ""
+    // ".gitignore": true,
+    // "**/ErrorBoundary": true,
+    // "config": true,
+    // "node_modules": true,
+    // "package-lock.json": true,
+    // "package.json": true,
+    // "public": true,
+    // "scripts": true,
+  }
 }
