@@ -1,5 +1,27 @@
 /* The page is NOT responsive. You can implement responsiveness yourself if you wanna have some fun 😃 */
-
+/* #region CSS Reset */
+*:where(:not(iframe, canvas, img, svg, video):not(svg *)) {
+  all: unset;
+  display: revert;
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+ol, ul {
+  list-style: none;
+}
+img {
+  max-width: 100%;
+}
+table {
+  border-collapse: collapse;
+}
+textarea {
+  white-space: revert;
+}
+/* #endregion */
 :root {
   --color-primary: #5ec576;
   --color-secondary: #ffcb03;
@@ -14,11 +36,6 @@
   --gradient-secondary: linear-gradient(to top left, #ffb003, #ffcb03);
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: inherit;
-}
 
 html {
   font-size: 62.5%;
@@ -110,7 +127,7 @@ img {
 }
 
 .lazy-img {
-  filter: blur(20px);
+  filter: blur(5px);
 }
 
 /* NAVIGATION */
@@ -196,6 +213,7 @@ img {
 h1 {
   font-size: 5.5rem;
   line-height: 1.35;
+  font-weight: bold;
 }
 
 h4 {
