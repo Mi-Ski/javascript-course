@@ -13,9 +13,11 @@ const renderCountry = function (data, className = "") {
             <p class="country__row"><span>👫</span>${(
               +data.population / 1000000
             ).toFixed(1)}</p>
-            <p class="country__row"><span>🗣️</span>${Object.values(data.languages)[0]}</p>
+            <p class="country__row"><span>🗣️</span>${
+              Object.values(data.languages)[0]
+            }</p>
             <p class="country__row"><span>💰</span>${
-Object.keys(data.currencies)[0]
+              Object.keys(data.currencies)[0]
             }</p>
           </div>
         </article>
@@ -53,46 +55,84 @@ Object.keys(data.currencies)[0]
 
 // getCountryAndNeighbour("france");
 
-const renderError = function (msg) {
-  countriesContainer.insertAdjacentText("beforeend", msg);
-  countriesContainer.style.opacity = 0;
-};
+// const renderError = function (msg) {
+//   countriesContainer.insertAdjacentText("beforeend", msg);
+//   countriesContainer.style.opacity = 0;
+// };
 
-const getJSON = function (url) {
-   fetch(url).then( el => {
-      if (!el.ok) throw new Error(`Country not found ${el.status}`);
+// const getJSON = function (url) {
+//    fetch(url).then( el => {
+//       if (!el.ok) throw new Error(`Country not found ${el.status}`);
 
-      return el.json();
-   }) 
-}
+//       return el.json();
+//    })
+// }
 
-const getCountryData = function (country) {
-  fetch(`https://restcountries.com/v3.1/name/${country}`)
-    .then((el) => {
-      return el.json();
-    })
-    .then((el) => {
-      console.log(el);
-      if (el.status === 404) throw new Error("Country not found!!!");
-      renderCountry(el[0]);
-      const neighbour = el[0].borders[0];
+// const getCountryData = function (country) {
+//   fetch(`https://restcountries.com/v3.1/name/${country}`)
+//     .then((el) => {
+//       return el.json();
+//     })
+//     .then((el) => {
+//       console.log(el);
+//       if (el.status === 404) throw new Error("Country not found!!!");
+//       renderCountry(el[0]);
+//       const neighbour = el[0].borders[0];
 
-      if (!neighbour) return;
-      return fetch(`https://restcountries.com/v2/alpha/${neighbour}`);
-    })
-    .then((el) => el.json())
-    .then((el) => renderCountry(el, "neighbour"))
-    .catch((err) => {
-      console.error(`${err} :D :D :D`);
-      renderError(`Something went wrong... ${err.message}`);
-    })
-    .finally(() => {
-      // hide a loading spinner animation
-      // container fade-in
-      countriesContainer.style.opacity = 1;
-    });
-};
+//       if (!neighbour) return;
+//       return fetch(`https://restcountries.com/v2/alpha/${neighbour}`);
+//     })
+//     .then((el) => el.json())
+//     .then((el) => renderCountry(el, "neighbour"))
+//     .catch((err) => {
+//       console.error(`${err} :D :D :D`);
+//       renderError(`Something went wrong... ${err.message}`);
+//     })
+//     .finally(() => {
+//       // hide a loading spinner animation
+//       // container fade-in
+//       countriesContainer.style.opacity = 1;
+//     });
+// };
 
-btn.addEventListener("click", function () {
-  getCountryData("sweden");
-});
+// btn.addEventListener("click", function () {
+//   getCountryData("sweden");
+// });
+
+// const loc = navigator.geolocation.getCurrentPosition(el => {
+//   const { latitude, longitude } = el.coords;
+//   console.log(latitude, longitude);
+
+//   fetch(
+//     `https://geocode.xyz/${latitude},${longitude}?geoit=json&auth=320666611539353234024x59474`
+//   )
+//     .then(el => el.json())
+//     .then(el => {
+//       return fetch(`https://restcountries.com/v3.1/name/${el.country}`);
+//     })
+//     .then(el => el.json())
+//     .then(el => {
+//       console.log(el);
+//       renderCountry(el[0]);
+//       return fetch(`https://restcountries.com/v3.1/alpha/${el[0].borders[1]}`);
+//     })
+//     .then(el => el.json())
+//     .then(el => renderCountry(el[0], 'neighbour'))
+//     .catch(err => console.error(err.message))
+// });
+
+
+// console.log('test start');
+// setTimeout(() => {
+//   console.log('0 sec timer');
+// }, 0);
+// Promise.resolve('resolved promise 1').then(el => console.log(el));
+// console.log('test end');
+
+
+const lottery = new Promise(function (resolve, reject) {
+  if (Math.random() >= .5) resolve('You win!')
+  else reject(new Error('You lost your money.'));
+})
+
+lottery.then(res => console.log(res)).catch(err => console.error(err));
