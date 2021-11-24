@@ -121,7 +121,6 @@ const renderCountry = function (data, className = "") {
 //     .catch(err => console.error(err.message))
 // });
 
-
 // console.log('test start');
 // setTimeout(() => {
 //   console.log('0 sec timer');
@@ -129,10 +128,17 @@ const renderCountry = function (data, className = "") {
 // Promise.resolve('resolved promise 1').then(el => console.log(el));
 // console.log('test end');
 
-
 const lottery = new Promise(function (resolve, reject) {
-  if (Math.random() >= .5) resolve('You win!')
-  else reject(new Error('You lost your money.'));
-})
+  if (Math.random() >= 0.5) resolve("You win!");
+  else reject(new Error("You lost your money."));
+});
 
 lottery.then(res => console.log(res)).catch(err => console.error(err));
+
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  })
+};
+
+getPosition().then(pos => console.log(pos));

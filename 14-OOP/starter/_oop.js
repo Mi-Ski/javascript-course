@@ -61,4 +61,3 @@ console.log(steve);
 console.log(steve.__proto__ === PersonProto);
 steve.birthYear = 1998;
 steve.calcAge();
-
